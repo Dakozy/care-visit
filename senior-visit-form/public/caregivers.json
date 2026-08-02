@@ -1,0 +1,26 @@
+[
+  {
+    "caregiverId": "CG-001",
+    "password": "welcome123",
+    "name": "Amaka Johnson",
+    "category": "Medical"
+  },
+  {
+    "caregiverId": "CG-002",
+    "password": "welcome123",
+    "name": "Ibrahim Suleiman",
+    "category": "Medical"
+  },
+  {
+    "caregiverId": "CG-003",
+    "password": "welcome123",
+    "name": "Grace Okoro",
+    "category": "Non-Medical"
+  },
+  {
+    "caregiverId": "CG-004",
+    "password": "welcome123",
+    "name": "Peter Ebi",
+    "category": "Non-Medical"
+  }
+]

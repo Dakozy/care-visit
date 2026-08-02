@@ -1,0 +1,26 @@
+[
+  {
+    "seniorId": "SC-1001",
+    "name": "Chief Emmanuel Briggs",
+    "community": "Abonnema",
+    "lga": "Akuku-Toru"
+  },
+  {
+    "seniorId": "SC-1002",
+    "name": "Madam Comfort Wokoma",
+    "community": "Buguma",
+    "lga": "Asari-Toru"
+  },
+  {
+    "seniorId": "SC-1003",
+    "name": "Pa Silas Amachree",
+    "community": "Bakana",
+    "lga": "Degema"
+  },
+  {
+    "seniorId": "SC-1004",
+    "name": "Madam Ibiba George",
+    "community": "Bori",
+    "lga": "Khana"
+  }
+]

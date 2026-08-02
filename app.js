@@ -6,7 +6,7 @@
 // ---- CONFIGURATION -------------------------------------------------------
 // Paste your deployed Google Apps Script Web App URL here.
 // See docs/SHEETS_SETUP.md for how to generate this.
-const APPS_SCRIPT_URL = "AKfycbxMJ8bnlUsfsDsSu_tiBLM-agUIDuoo7HfMEjmwYSw2PbP5d-0tbC70GM7Joq42NXmfoQ";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxMJ8bnlUsfsDsSu_tiBLM-agUIDuoo7HfMEjmwYSw2PbP5d-0tbC70GM7Joq42NXmfoQ/exec";
 
 const DRAFT_KEY = "svr_draft_v1";
 const SUBMITTED_KEY_PREFIX = "svr_submitted_";

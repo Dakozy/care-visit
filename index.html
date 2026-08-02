@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Daily Senior Beneficiary Visit Report</title>
+<meta name="description" content="Field data collection form for caregiver home visits to senior citizens.">
+<meta name="theme-color" content="#0b3d78">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Skip link for accessibility -->
+<a class="skip-link" href="#main-form">Skip to form</a>
+
+<header class="app-header">
+  <div class="app-header__brand">
+    <img src="https://i.postimg.cc/13MP69tx/images-(1).jpg" alt="O.B. Lulu-Briggs Foundation logo" class="app-header__logo">
+    <div>
+      <p class="app-header__org">O.B. LULU-BRIGGS FOUNDATION</p>
+      <h1 class="app-header__title">Daily Senior Beneficiary Visit Report</h1>
+    </div>
+  </div>
+  <div class="app-header__controls">
+    <span id="connectionStatus" class="status-pill status-pill--online">Online</span>
+    <button type="button" id="darkModeToggle" class="icon-button" aria-pressed="false" aria-label="Toggle dark mode">🌙</button>
+  </div>
+</header>
+
+<!-- Progress bar -->
+<div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Form completion progress">
+  <div id="progressBar" class="progress-bar"></div>
+</div>
+<p id="progressLabel" class="progress-label">0% complete</p>
+
+<main id="main-form">
+<form id="visitForm" novalidate>
+  <input type="hidden" id="submissionId" name="submissionId">
+
+  <!-- SECTION A: Caregiver Information -->
+  <details class="form-section" id="section-a" open>
+    <summary>A. Caregiver Information</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="caregiverName">Caregiver Name <span class="req">*</span></label>
+          <input type="text" id="caregiverName" name="caregiverName" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="staffId">Staff ID <span class="req">*</span></label>
+          <input type="text" id="staffId" name="staffId" required>
+        </div>
+        <div class="field">
+          <label for="caregiverPhone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="caregiverPhone" name="caregiverPhone" required pattern="^[0-9+\-\s()]{7,15}$" placeholder="e.g. 08012345678">
+          <p class="field-error" data-for="caregiverPhone">Enter a valid phone number.</p>
+        </div>
+        <div class="field">
+          <label for="designation">Designation</label>
+          <input type="text" id="designation" name="designation">
+        </div>
+        <div class="field">
+          <label for="department">Department</label>
+          <input type="text" id="department" name="department">
+        </div>
+        <div class="field">
+          <label for="caregiverType">Medical / Non-Medical <span class="req">*</span></label>
+          <select id="caregiverType" name="caregiverType" required>
+            <option value="">Select...</option>
+            <option value="Medical">Medical</option>
+            <option value="Non-Medical">Non-Medical</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="team">Team</label>
+          <input type="text" id="team" name="team">
+        </div>
+        <div class="field">
+          <label for="visitDate">Date <span class="req">*</span></label>
+          <input type="date" id="visitDate" name="visitDate" required>
+        </div>
+        <div class="field">
+          <label for="timeIn">Time In</label>
+          <input type="time" id="timeIn" name="timeIn">
+        </div>
+        <div class="field">
+          <label for="timeOut">Time Out</label>
+          <input type="time" id="timeOut" name="timeOut">
+        </div>
+      </div>
+      <div class="field">
+        <label>GPS Coordinates</label>
+        <div class="gps-row">
+          <input type="text" id="gpsLat" name="gpsLat" placeholder="Latitude" readonly>
+          <input type="text" id="gpsLng" name="gpsLng" placeholder="Longitude" readonly>
+          <button type="button" id="captureGpsBtn" class="btn btn--secondary">📍 Capture GPS</button>
+        </div>
+        <p id="gpsStatus" class="field-hint"></p>
+      </div>
+      <p class="field-hint">Timestamp is captured automatically on submission.</p>
+    </div>
+  </details>
+
+  <!-- SECTION B: Beneficiary Information -->
+  <details class="form-section" id="section-b">
+    <summary>B. Beneficiary Information</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="beneficiaryId">Beneficiary ID <span class="req">*</span></label>
+          <input type="text" id="beneficiaryId" name="beneficiaryId" required>
+        </div>
+        <div class="field">
+          <label for="beneficiaryName">Full Name <span class="req">*</span></label>
+          <input type="text" id="beneficiaryName" name="beneficiaryName" required>
+        </div>
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="">Select...</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="0" max="130">
+        </div>
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob">
+        </div>
+        <div class="field">
+          <label for="community">Community</label>
+          <input type="text" id="community" name="community">
+        </div>
+        <div class="field">
+          <label for="ward">Ward</label>
+          <input type="text" id="ward" name="ward">
+        </div>
+        <div class="field">
+          <label for="lga">LGA</label>
+          <input type="text" id="lga" name="lga">
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <input type="text" id="state" name="state">
+        </div>
+        <div class="field field--wide">
+          <label for="houseAddress">House Address</label>
+          <input type="text" id="houseAddress" name="houseAddress">
+        </div>
+        <div class="field">
+          <label for="landmark">Landmark</label>
+          <input type="text" id="landmark" name="landmark">
+        </div>
+        <div class="field">
+          <label for="beneficiaryPhone">Phone Number</label>
+          <input type="tel" id="beneficiaryPhone" name="beneficiaryPhone">
+        </div>
+        <div class="field">
+          <label for="nextOfKin">Next of Kin</label>
+          <input type="text" id="nextOfKin" name="nextOfKin">
+        </div>
+        <div class="field">
+          <label for="relationship">Relationship</label>
+          <input type="text" id="relationship" name="relationship">
+        </div>
+        <div class="field">
+          <label for="emergencyContact">Emergency Contact</label>
+          <input type="tel" id="emergencyContact" name="emergencyContact">
+        </div>
+        <div class="field">
+          <label for="livingArrangement">Living Arrangement</label>
+          <select id="livingArrangement" name="livingArrangement">
+            <option value="">Select...</option>
+            <option>Lives alone</option>
+            <option>Lives with family</option>
+            <option>Lives with caregiver</option>
+            <option>Institutional care</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="caregiverAssigned">Caregiver Assigned</label>
+          <input type="text" id="caregiverAssigned" name="caregiverAssigned">
+        </div>
+      </div>
+      <div class="field">
+        <label for="beneficiaryPhoto">Photograph (optional)</label>
+        <input type="file" id="beneficiaryPhoto" name="beneficiaryPhoto" accept="image/*" capture="environment">
+        <img id="beneficiaryPhotoPreview" class="photo-preview" alt="" hidden>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION C: Visit Details -->
+  <details class="form-section" id="section-c">
+    <summary>C. Visit Details — Purpose of Visit</summary>
+    <div class="section-body">
+      <fieldset class="checkbox-grid">
+        <legend class="sr-only">Purpose of Visit</legend>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Routine Visit"> Routine Visit</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Follow-up"> Follow-up</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Medication Support"> Medication Support</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Health Assessment"> Health Assessment</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Welfare Assessment"> Welfare Assessment</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Nutrition"> Nutrition</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Counselling"> Counselling</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Hygiene"> Hygiene</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Physiotherapy"> Physiotherapy</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Social Visit"> Social Visit</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Emergency"> Emergency</label>
+        <label class="checkbox"><input type="checkbox" name="purposeOfVisit" value="Other"> Other</label>
+      </fieldset>
+    </div>
+  </details>
+
+  <!-- SECTION D: Medical Assessment -->
+  <details class="form-section" id="section-d">
+    <summary>D. Medical Assessment — Vital Signs</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field"><label for="temperature">Temperature (°C)</label><input type="number" step="0.1" id="temperature" name="temperature"></div>
+        <div class="field"><label for="bloodPressure">Blood Pressure (mmHg)</label><input type="text" id="bloodPressure" name="bloodPressure" placeholder="120/80"></div>
+        <div class="field"><label for="pulseRate">Pulse Rate (bpm)</label><input type="number" id="pulseRate" name="pulseRate"></div>
+        <div class="field"><label for="respiratoryRate">Respiratory Rate</label><input type="number" id="respiratoryRate" name="respiratoryRate"></div>
+        <div class="field"><label for="oxygenSaturation">Oxygen Saturation (%)</label><input type="number" id="oxygenSaturation" name="oxygenSaturation" min="0" max="100"></div>
+        <div class="field"><label for="bloodSugar">Blood Sugar (mg/dL)</label><input type="number" id="bloodSugar" name="bloodSugar"></div>
+        <div class="field"><label for="weight">Weight (kg)</label><input type="number" step="0.1" id="weight" name="weight"></div>
+        <div class="field"><label for="height">Height (cm)</label><input type="number" step="0.1" id="height" name="height"></div>
+        <div class="field"><label for="bmi">BMI</label><input type="number" step="0.1" id="bmi" name="bmi" readonly placeholder="Auto-calculated"></div>
+        <div class="field">
+          <label for="generalHealth">General Health</label>
+          <select id="generalHealth" name="generalHealth">
+            <option value="">Select...</option>
+            <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option><option>Critical</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION E: Medical Conditions -->
+  <details class="form-section" id="section-e">
+    <summary>E. Medical Conditions</summary>
+    <div class="section-body">
+      <fieldset class="checkbox-grid">
+        <legend class="sr-only">Medical Conditions</legend>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Hypertension"> Hypertension</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Arthritis"> Arthritis</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Stroke"> Stroke</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Dementia"> Dementia</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Visual Impairment"> Visual Impairment</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Hearing Loss"> Hearing Loss</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Asthma"> Asthma</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Cancer"> Cancer</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Kidney Disease"> Kidney Disease</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Heart Disease"> Heart Disease</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Depression"> Depression</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Pressure Ulcer"> Pressure Ulcer</label>
+        <label class="checkbox"><input type="checkbox" name="medicalConditions" value="Other"> Other</label>
+      </fieldset>
+    </div>
+  </details>
+
+  <!-- SECTION F: Medication -->
+  <details class="form-section" id="section-f">
+    <summary>F. Medication</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="takingMedications">Taking medications?</label>
+        <select id="takingMedications" name="takingMedications">
+          <option value="">Select...</option>
+          <option>Yes</option><option>No</option>
+        </select>
+      </div>
+      <div id="medicationTableWrap" class="dynamic-table-wrap" hidden>
+        <table class="dynamic-table" id="medicationTable">
+          <thead>
+            <tr><th>Medicine</th><th>Dosage</th><th>Frequency</th><th>Compliance</th><th>Missed Doses</th><th>Side Effects</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <button type="button" class="btn btn--secondary btn--add" data-add-row="medicationTable">+ Add Medication</button>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION G: Nutrition -->
+  <details class="form-section" id="section-g">
+    <summary>G. Nutrition</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="appetite">Appetite</label>
+          <select id="appetite" name="appetite">
+            <option value="">Select...</option>
+            <option>Excellent</option><option>Good</option><option>Poor</option><option>Very Poor</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="waterIntake">Water Intake (liters/day)</label>
+          <input type="number" step="0.1" id="waterIntake" name="waterIntake">
+        </div>
+      </div>
+      <fieldset class="checkbox-grid">
+        <legend>Meals eaten today</legend>
+        <label class="checkbox"><input type="checkbox" name="mealsEaten" value="Breakfast"> Breakfast</label>
+        <label class="checkbox"><input type="checkbox" name="mealsEaten" value="Lunch"> Lunch</label>
+        <label class="checkbox"><input type="checkbox" name="mealsEaten" value="Dinner"> Dinner</label>
+      </fieldset>
+    </div>
+  </details>
+
+  <!-- SECTION H: Mobility -->
+  <details class="form-section" id="section-h">
+    <summary>H. Mobility</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="mobilityStatus">Mobility Status</label>
+          <select id="mobilityStatus" name="mobilityStatus">
+            <option value="">Select...</option>
+            <option>Walks independently</option>
+            <option>Uses walking stick</option>
+            <option>Wheelchair</option>
+            <option>Bedridden</option>
+            <option>Needs assistance</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fallRisk">Fall Risk</label>
+          <select id="fallRisk" name="fallRisk">
+            <option value="">Select...</option>
+            <option>Low</option><option>Moderate</option><option>High</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION I: Mental & Emotional Wellbeing -->
+  <details class="form-section" id="section-i">
+    <summary>I. Mental &amp; Emotional Wellbeing</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="mood">Mood</label>
+          <select id="mood" name="mood">
+            <option value="">Select...</option>
+            <option>Happy</option><option>Calm</option><option>Anxious</option><option>Depressed</option><option>Agitated</option><option>Confused</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="memoryStatus">Memory Status</label>
+          <select id="memoryStatus" name="memoryStatus">
+            <option value="">Select...</option>
+            <option>Normal</option><option>Forgetful</option><option>Severe Memory Loss</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION J: Home Environment -->
+  <details class="form-section" id="section-j">
+    <summary>J. Home Environment</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="houseCondition">House Condition</label>
+        <select id="houseCondition" name="houseCondition">
+          <option value="">Select...</option>
+          <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+        </select>
+      </div>
+      <fieldset class="checkbox-grid">
+        <legend>Availability of</legend>
+        <label class="checkbox"><input type="checkbox" name="homeAvailability" value="Water"> Water</label>
+        <label class="checkbox"><input type="checkbox" name="homeAvailability" value="Electricity"> Electricity</label>
+        <label class="checkbox"><input type="checkbox" name="homeAvailability" value="Toilet"> Toilet</label>
+        <label class="checkbox"><input type="checkbox" name="homeAvailability" value="Food"> Food</label>
+        <label class="checkbox"><input type="checkbox" name="homeAvailability" value="Safe Sleeping Area"> Safe Sleeping Area</label>
+      </fieldset>
+    </div>
+  </details>
+
+  <!-- SECTION K: Activities Performed -->
+  <details class="form-section" id="section-k">
+    <summary>K. Activities Performed</summary>
+    <div class="section-body">
+      <fieldset class="checkbox-grid">
+        <legend class="sr-only">Activities Performed</legend>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Medication administered"> Medication administered</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Blood pressure checked"> Blood pressure checked</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Blood sugar checked"> Blood sugar checked</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Personal hygiene"> Personal hygiene</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Exercise support"> Exercise support</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Health education"> Health education</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Counselling"> Counselling</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Nutrition support"> Nutrition support</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Referral"> Referral</label>
+        <label class="checkbox"><input type="checkbox" name="activitiesPerformed" value="Hospital Visit"> Hospital Visit</label>
+      </fieldset>
+    </div>
+  </details>
+
+  <!-- SECTION L: Items Distributed -->
+  <details class="form-section" id="section-l">
+    <summary>L. Items Distributed</summary>
+    <div class="section-body">
+      <div class="dynamic-table-wrap">
+        <table class="dynamic-table" id="itemsTable">
+          <thead><tr><th>Item</th><th>Quantity</th><th>Unit</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <button type="button" class="btn btn--secondary btn--add" data-add-row="itemsTable">+ Add Item</button>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION M: Observations -->
+  <details class="form-section" id="section-m">
+    <summary>M. Observations</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="observations" class="sr-only">Observations</label>
+        <textarea id="observations" name="observations" rows="5" placeholder="Notes on the beneficiary's condition, home, or visit..."></textarea>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION N: Recommendations -->
+  <details class="form-section" id="section-n">
+    <summary>N. Recommendations</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="recommendations" class="sr-only">Recommendations</label>
+        <textarea id="recommendations" name="recommendations" rows="5" placeholder="Follow-up actions, referrals, or support needed..."></textarea>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION O: Referral -->
+  <details class="form-section" id="section-o">
+    <summary>O. Referral</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="referralNeeded">Referral Needed?</label>
+        <select id="referralNeeded" name="referralNeeded">
+          <option value="">Select...</option>
+          <option>Yes</option><option>No</option>
+        </select>
+      </div>
+      <div id="referralDetails" class="field-grid" hidden>
+        <div class="field"><label for="referralFacility">Facility</label><input type="text" id="referralFacility" name="referralFacility"></div>
+        <div class="field"><label for="referralReason">Reason</label><input type="text" id="referralReason" name="referralReason"></div>
+        <div class="field">
+          <label for="referralUrgency">Urgency</label>
+          <select id="referralUrgency" name="referralUrgency">
+            <option value="">Select...</option>
+            <option>Low</option><option>Medium</option><option>High</option><option>Immediate</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION P: Risk Assessment -->
+  <details class="form-section" id="section-p">
+    <summary>P. Risk Assessment</summary>
+    <div class="section-body">
+      <fieldset class="checkbox-grid">
+        <legend class="sr-only">Risk Assessment</legend>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Abuse suspected"> Abuse suspected</label>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Neglect suspected"> Neglect suspected</label>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Financial hardship"> Financial hardship</label>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Food insecurity"> Food insecurity</label>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Isolation"> Isolation</label>
+        <label class="checkbox"><input type="checkbox" name="riskAssessment" value="Mental health concern"> Mental health concern</label>
+        <label class="checkbox checkbox--danger"><input type="checkbox" name="riskAssessment" value="Immediate danger"> Immediate danger</label>
+      </fieldset>
+      <p id="riskWarning" class="risk-warning" hidden>⚠ Immediate danger flagged. Escalate to your supervisor immediately after submitting.</p>
+    </div>
+  </details>
+
+  <!-- SECTION Q: Visit Outcome -->
+  <details class="form-section" id="section-q">
+    <summary>Q. Visit Outcome</summary>
+    <div class="section-body">
+      <div class="field">
+        <label for="visitOutcome">Outcome <span class="req">*</span></label>
+        <select id="visitOutcome" name="visitOutcome" required>
+          <option value="">Select...</option>
+          <option>Completed Successfully</option>
+          <option>Beneficiary Absent</option>
+          <option>Hospitalized</option>
+          <option>Referred</option>
+          <option>Deceased</option>
+          <option>Visit Rescheduled</option>
+        </select>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION R: Digital Signature -->
+  <details class="form-section" id="section-r">
+    <summary>R. Digital Signature</summary>
+    <div class="section-body">
+      <div class="signature-block">
+        <label>Caregiver Signature</label>
+        <canvas id="caregiverSignature" class="signature-pad" width="500" height="160" aria-label="Caregiver signature pad"></canvas>
+        <button type="button" class="btn btn--secondary btn--small" data-clear-sig="caregiverSignature">Clear</button>
+      </div>
+      <div class="signature-block">
+        <label>Beneficiary Signature (or thumbprint description)</label>
+        <canvas id="beneficiarySignature" class="signature-pad" width="500" height="160" aria-label="Beneficiary signature pad"></canvas>
+        <button type="button" class="btn btn--secondary btn--small" data-clear-sig="beneficiarySignature">Clear</button>
+      </div>
+    </div>
+  </details>
+
+  <!-- SECTION S: Photo Upload -->
+  <details class="form-section" id="section-s">
+    <summary>S. Photo Upload</summary>
+    <div class="section-body">
+      <div class="field-grid">
+        <div class="field">
+          <label for="photoBeneficiary">Beneficiary</label>
+          <input type="file" id="photoBeneficiary" name="photoBeneficiary" accept="image/*" capture="environment">
+        </div>
+        <div class="field">
+          <label for="photoMedicine">Medicine</label>
+          <input type="file" id="photoMedicine" name="photoMedicine" accept="image/*" capture="environment">
+        </div>
+        <div class="field">
+          <label for="photoEnvironment">Environment</label>
+          <input type="file" id="photoEnvironment" name="photoEnvironment" accept="image/*" capture="environment">
+        </div>
+        <div class="field">
+          <label for="photoDocuments">Documents</label>
+          <input type="file" id="photoDocuments" name="photoDocuments" accept="image/*" capture="environment">
+        </div>
+      </div>
+      <p class="field-hint">Photos are optional. Large images are compressed automatically before upload.</p>
+    </div>
+  </details>
+
+  <div class="submit-bar">
+    <p id="formErrorSummary" class="form-error-summary" role="alert" hidden></p>
+    <button type="submit" id="submitBtn" class="btn btn--primary btn--large">Submit Visit Report</button>
+    <p class="field-hint">A draft is saved automatically on this device as you fill the form.</p>
+  </div>
+</form>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="loadingOverlay" class="loading-overlay" hidden>
+  <div class="spinner" aria-hidden="true"></div>
+  <p>Submitting visit report…</p>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

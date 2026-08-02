@@ -1,0 +1,23 @@
+{
+  "name": "Daily Senior Beneficiary Visit Report",
+  "short_name": "Visit Report",
+  "description": "Field data collection app for caregiver home visits to senior citizens.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef1f5",
+  "theme_color": "#0b3d78",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/13MP69tx/images-(1).jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://i.postimg.cc/13MP69tx/images-(1).jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

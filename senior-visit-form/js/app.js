@@ -504,7 +504,7 @@ async function handleSubmit(evt) {
     return;
   }
 
-  .disabled = true;
+  submitBtn.disabled = true;
   loadingOverlay.hidden = false;
 
   try {

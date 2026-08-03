@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   attachAutosave();
   updateProgress();
   form.addEventListener("submit", handleSubmit);
+  form.addEventListener("input", debounce(updateProgress, 200));
 });
 
 // ==========================================================================
@@ -314,7 +315,7 @@ function fitCanvas(canvas) {
   canvas.width = displayWidth * ratio;
   canvas.height = 160 * ratio;
   const ctx = canvas.getContext("2d");
-  ctx.scale(ratio, ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.lineWidth = 2.2;
   ctx.lineCap = "round";
   ctx.strokeStyle = "#0b3d78";
@@ -324,15 +325,24 @@ function fitCanvas(canvas) {
 // Photo previews + client-side compression
 // ==========================================================================
 function initPhotoPreviews() {
-  const beneficiaryInput = document.getElementById("beneficiaryPhoto");
-  const preview = document.getElementById("beneficiaryPhotoPreview");
-  beneficiaryInput.addEventListener("change", async () => {
-    const file = beneficiaryInput.files[0];
-    if (!file) { preview.hidden = true; return; }
-    const dataUrl = await compressImage(file);
-    preview.src = dataUrl;
-    preview.hidden = false;
-  });
+    const beneficiaryInput = document.getElementById("beneficiaryPhoto");
+    const preview = document.getElementById("beneficiaryPhotoPreview");
+
+    if (!beneficiaryInput || !preview) return;
+
+    beneficiaryInput.addEventListener("change", async () => {
+        const file = beneficiaryInput.files[0];
+
+        if (!file) {
+            preview.hidden = true;
+            return;
+        }
+
+        const dataUrl = await compressImage(file);
+
+        preview.src = dataUrl;
+        preview.hidden = false;
+    });
 }
 
 function compressImage(file, maxDim = MAX_PHOTO_DIMENSION, quality = 0.75) {
@@ -391,7 +401,6 @@ function updateProgress() {
   });
 }
 
-form.addEventListener("input", debounce(updateProgress, 200));
 
 // ==========================================================================
 // Autosave draft (localStorage)
@@ -491,8 +500,6 @@ async function handleSubmit(evt) {
     return;
   }
 
-   const submitBtn = document.getElementById("submitBtn"); //new code from from me
-
   const errors = validateForm();
   if (errors.length > 0) {
     formErrorSummary.hidden = false;
@@ -519,12 +526,23 @@ async function handleSubmit(evt) {
     // Apps Script Web Apps don't return CORS headers for POST, so we use
     // mode: "no-cors" and treat the request as fire-and-forget.
     // text/plain avoids a CORS preflight request.
-    await fetch(APPS_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload),
-    });
+const controller = new AbortController();
+
+const timeout = setTimeout(() => {
+    controller.abort();
+}, 30000);
+
+await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload),
+    signal: controller.signal
+});
+
+clearTimeout(timeout);
 
     localStorage.setItem(SUBMITTED_KEY_PREFIX + submissionId, "1");
     clearDraft();

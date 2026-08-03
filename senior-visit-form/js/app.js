@@ -9,7 +9,6 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgUwbT29ZqtjLCTRAPWg7xAGD3k18JRJqEmjNTWfznrbH8WsyRPYzfqgjTAASUk958zQ/exec";
 
 const DRAFT_KEY = "svr_draft_v1";
-const SUBMITTED_KEY_PREFIX = "svr_submitted_";
 const MAX_PHOTO_DIMENSION = 1000; // px, for client-side compression
 
 // ---- ELEMENT REFERENCES ---------------------------------------------------
@@ -26,8 +25,7 @@ const formErrorSummary = document.getElementById("formErrorSummary");
 // ==========================================================================
 // Init
 // ==========================================================================
-document.addEventListener("DOMContentLoaded", () => {
-  initSubmissionId();
+  
   initDarkMode();
   initConnectionStatus();
   initDefaultDate();
@@ -48,10 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================================================
 // Submission ID (also used for duplicate prevention)
 // ==========================================================================
-function initSubmissionId() {
-  const field = document.getElementById("submissionId");
-  field.value = "SVR-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
-}
 
 function initDefaultDate() {
   const dateField = document.getElementById("visitDate");
@@ -494,12 +488,6 @@ function fieldLabel(field) {
 async function handleSubmit(evt) {
   evt.preventDefault();
 
-  const submissionId = document.getElementById("submissionId").value;
-  if (localStorage.getItem(SUBMITTED_KEY_PREFIX + submissionId)) {
-    showToast("This report was already submitted.", "error");
-    return;
-  }
-
   const errors = validateForm();
   if (errors.length > 0) {
     formErrorSummary.hidden = false;
@@ -544,7 +532,6 @@ await fetch(APPS_SCRIPT_URL, {
 
 clearTimeout(timeout);
 
-    localStorage.setItem(SUBMITTED_KEY_PREFIX + submissionId, "1");
     clearDraft();
     showToast("Visit report submitted successfully.", "success");
     setTimeout(() => window.location.reload(), 1800);

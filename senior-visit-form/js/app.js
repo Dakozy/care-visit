@@ -491,6 +491,8 @@ async function handleSubmit(evt) {
     return;
   }
 
+   const submitBtn = document.getElementById("submitBtn"); //new code from from me
+
   const errors = validateForm();
   if (errors.length > 0) {
     formErrorSummary.hidden = false;

@@ -504,13 +504,13 @@ async function handleSubmit(evt) {
     return;
   }
 
-  submitBtn.disabled = true;
+  .disabled = true;
   loadingOverlay.hidden = false;
 
   try {
     const payload = await buildPayload();
 
-    if (APPS_SCRIPT_URL.includes("PASTE_YOUR")) {
+    if (APPS_SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbz9s-HNZalSozOiYyv1UOe9P-DeKhF8O5L-8VH-dF1W5guy85-rowCalwnxQCycNDzCPw/exec")) {
       throw new Error("Apps Script URL is not configured yet. See docs/SHEETS_SETUP.md.");
     }
 
